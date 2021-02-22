@@ -1,2 +1,11 @@
-forbidden_passwords: ["pass", "password", "admin", "qwerty", "123"]
+#forbidden_passwords: ["pass", "password", "admin", "qwerty", "123"]
 #IMPLEMENT PART 3
+
+# Server configurations
+server:
+  host: "localhost"
+  port: 5001
+  user: "posypenko"
+  password: "rock"
+  logging: false
+

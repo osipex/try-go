@@ -1,38 +1,27 @@
 package main
 
 import (
+	"fmt"
+	"github.com/ilyakaznacheev/cleanenv"
 	"log"
+	"os"
 	"try-go/server"
 )
 
 func main() {
-	c, err := readConfiguration()
-	if err != nil {
-		log.Fatal(err)
+	var c server.Config
+
+	if err := cleanenv.ReadConfig("conf/conf.yaml", &c); err != nil {
+		processError(err)
 	}
-	s := server.NewServer(c)
-	log.Printf("Starting a fresh server...")
-	log.Fatal(s.Run())
+	log.Printf("Starting server...")
+	log.Printf("Reading conf/conf.yaml values: %+v", c)
+	s := server.NewServer(&c)
+
+	log.Fatal(s.Run(c.Server.Host, c.Server.Port))
 }
 
-func readConfiguration() (*server.Config, error) {
-	c := &server.Config{}
-
-	err := readYaml(c)
-	if err != nil {
-		return nil, err
-	}
-
-	readEnv(c)
-
-	return c, nil
-}
-
-func readYaml(c *server.Config) error {
-	// TODO: IMPLEMENT PART C
-	return nil
-}
-
-func readEnv(c *server.Config) {
-	// TODO: IMPLEMENT PART C
+func processError(err error) {
+	fmt.Println(err)
+	os.Exit(2)
 }

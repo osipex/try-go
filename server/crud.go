@@ -31,11 +31,7 @@ func (s *Server) CreateUser(c echo.Context) error {
 	return c.JSON(http.StatusCreated, user)
 }
 
-// func (us *Storage) GetUser(){
-//
-// }
 func (s *Server) GetUser(c echo.Context) error {
-	//s.conn.GetUser()
 	id := c.Param("id")
 	for _, user := range storage {
 		if user.ID == id {
