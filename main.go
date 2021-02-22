@@ -10,11 +10,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	s := server.NewServer(c)
+	log.Printf("Starting a fresh server...")
 	log.Fatal(s.Run())
 }
-
 
 func readConfiguration() (*server.Config, error) {
 	c := &server.Config{}
