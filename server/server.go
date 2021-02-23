@@ -9,14 +9,16 @@ import (
 type Server struct {
 	e    *echo.Echo
 	conn Storage
+	cfg  *Config
 }
 
-func NewServer(_ *Config) *Server {
+func NewServer(cfg *Config) *Server {
 	e := echo.New()
 
 	return &Server{
 		e:    e,
 		conn: NewInMemoryStorage(),
+		cfg:  cfg,
 	}
 }
 
@@ -34,8 +36,8 @@ func (s *Server) initRoutes() {
 	s.e.GET("/users/:id", s.GetUser)
 	s.e.DELETE("/users/:id", s.DeleteUser)
 	s.e.GET("/admin", s.Admin, middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-		if subtle.ConstantTimeCompare([]byte(username), []byte(getUser())) == 1 &&
-			subtle.ConstantTimeCompare([]byte(password), []byte(getPass())) == 1 {
+		if subtle.ConstantTimeCompare([]byte(username), []byte(s.getUser())) == 1 &&
+			subtle.ConstantTimeCompare([]byte(password), []byte(s.getPass())) == 1 {
 			return true, nil
 		}
 		return false, nil

@@ -1,9 +1,5 @@
 package server
 
-import (
-	"github.com/ilyakaznacheev/cleanenv"
-)
-
 type Config struct {
 	Server struct {
 		Port          string `yaml:"port"`
@@ -14,25 +10,10 @@ type Config struct {
 	} `yaml:"server"`
 }
 
-func getUser() string {
-	var c Config
-	if err := cleanenv.ReadConfig("conf/conf.yaml", &c); err != nil {
-		processError(err)
-	}
-	user := c.Server.User
-	return user
+func (s *Server) getUser() string {
+	return s.cfg.Server.User
 }
 
-func getPass() string {
-	var c Config
-	if err := cleanenv.ReadConfig("conf/conf.yaml", &c); err != nil {
-		processError(err)
-	}
-	pass := c.Server.Password
-	return pass
-}
-
-// TODO make unified function getConfigValue() to return specific property name
-func GetConfigValue() {
-	return
+func (s *Server) getPass() string {
+	return s.cfg.Server.Password
 }

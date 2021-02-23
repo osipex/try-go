@@ -4,7 +4,7 @@
 # Server configurations
 server:
   host: "localhost"
-  port: 7546
+  port: 5000
   user: "posypenko"
   password: "rock"
   logging: true
