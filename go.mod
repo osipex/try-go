@@ -6,5 +6,5 @@ require (
 	github.com/google/uuid v1.2.0
 	github.com/ilyakaznacheev/cleanenv v1.2.5
 	github.com/labstack/echo/v4 v4.2.0
-	gopkg.in/yaml.v2 v2.2.2
+	github.com/stretchr/testify v1.4.0
 )

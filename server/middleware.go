@@ -20,7 +20,6 @@ func (s *Server) initMiddlewareLogging() {
 	if err := cleanenv.ReadConfig("conf/conf.yaml", &c); err != nil {
 		processError(err)
 	}
-
 	logging := c.Server.EnableLogging
 
 	if logging {

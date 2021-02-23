@@ -22,6 +22,5 @@ func NewInMemoryStorage() Storage {
 	storage = append(storage, User{genUUID(), "Splinter", "Rat", 300})
 	storage = append(storage, User{genUUID(), "Shredder", "Human", 32})
 	var out Storage
-
 	return out
 }
