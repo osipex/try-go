@@ -13,17 +13,22 @@ type User struct {
 
 type Storage interface {
 	GetUser(id string) (*User, error)
-	CreateUser(*User) error // Make sure ID is added to the struct OR return ID from this method
+	SaveUser(*User) error // Make sure ID is added to the struct OR return ID from this method
 	DeleteUser(id string) error
-	GetAllUsers() (*[]User, error)
+	GetAllUsers() ([]User, error)
 }
 
 type UserStorage struct {
 	storage []User
 }
 
-func (us *UserStorage) GetAllUsers() (*[]User, error) {
-	return &us.storage, nil
+//
+// This methods handles storage level operations.
+// Like basic input into storage, get from storage operations.
+//
+
+func (us *UserStorage) GetAllUsers() ([]User, error) {
+	return us.storage, nil
 }
 
 func (us *UserStorage) GetUser(id string) (*User, error) {
@@ -35,10 +40,9 @@ func (us *UserStorage) GetUser(id string) (*User, error) {
 	return nil, fmt.Errorf("User with id %v was not found", id)
 }
 
-func (us *UserStorage) CreateUser(*User) error {
-	user := User{}
-	user.ID = genUUID()
-	us.storage = append(us.storage, user)
+func (us *UserStorage) SaveUser(u *User) error {
+	u.ID = genUUID()
+	us.storage = append(us.storage, *u)
 	return nil
 }
 

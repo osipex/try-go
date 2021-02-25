@@ -26,7 +26,7 @@ package server
 // 	s := &Server{conn: NewInMemoryStorage()}
 //
 // 	// Assertions
-// 	if assert.NoError(t, s.CreateUser(c)) {
+// 	if assert.NoError(t, s.SaveUser(c)) {
 // 		assert.Equal(t, http.StatusCreated, rec.Code)
 // 		assert.Equal(t, userJSON, rec.Body.String())
 // 	}
