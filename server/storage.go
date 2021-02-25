@@ -1,5 +1,9 @@
 package server
 
+import (
+	"fmt"
+)
+
 type User struct {
 	ID      string `json:"id"`
 	Name    string `json:"name"`
@@ -7,21 +11,59 @@ type User struct {
 	Age     int    `json:"age"`
 }
 
-var storage []User
-
 type Storage interface {
 	GetUser(id string) (*User, error)
-	CreateUser(*User) error // Make sure ID is added to the struct OR return ID from this method
+	SaveUser(*User) error // Make sure ID is added to the struct OR return ID from this method
 	DeleteUser(id string) error
+	GetAllUsers() ([]User, error)
+}
+
+type UserStorage struct {
+	storage []User
+}
+
+//
+// This methods handles storage level operations.
+// Like basic input into storage, get from storage operations.
+//
+
+func (us *UserStorage) GetAllUsers() ([]User, error) {
+	return us.storage, nil
+}
+
+func (us *UserStorage) GetUser(id string) (*User, error) {
+	for _, user := range us.storage {
+		if user.ID == id {
+			return &user, nil
+		}
+	}
+	return nil, fmt.Errorf("User with id %v was not found", id)
+}
+
+func (us *UserStorage) SaveUser(u *User) error {
+	u.ID = genUUID()
+	us.storage = append(us.storage, *u)
+	return nil
+}
+
+func (us *UserStorage) DeleteUser(id string) error {
+	for item := range us.storage {
+		if us.storage[item].ID == id {
+			us.storage = append(us.storage[:item], us.storage[item+1:]...)
+			return fmt.Errorf("User with id %v was deleted", id)
+		}
+	}
+	return nil
 }
 
 func NewInMemoryStorage() Storage {
 	// TODO: IMPLEMENT PART A
-	storage = append(storage, User{genUUID(), "Mike", "Turtle", 18})
-	storage = append(storage, User{genUUID(), "Leo", "Turtle", 18})
-	storage = append(storage, User{genUUID(), "Splinter", "Rat", 300})
-	storage = append(storage, User{genUUID(), "Shredder", "Human", 32})
-	var out Storage
-
-	return out
+	return &UserStorage{
+		storage: []User{
+			{genUUID(), "Shredder", "Human", 32},
+			{genUUID(), "Mike", "Turtle", 18},
+			{genUUID(), "Splinter", "Rat", 300},
+			{genUUID(), "Leo", "Turtle", 18},
+		},
+	}
 }
