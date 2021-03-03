@@ -12,14 +12,15 @@ type Server struct {
 	cfg  *Config
 }
 
-func NewServer(cfg *Config) *Server {
+func NewServer(cfg *Config) (*Server, error) {
 	e := echo.New()
+	conn, _ := NewSQLStorage() //????
 
 	return &Server{
 		e:    e,
-		conn: NewInMemoryStorage(),
+		conn: conn,
 		cfg:  cfg,
-	}
+	}, nil
 }
 
 func (s *Server) Run(host, port string) error {
