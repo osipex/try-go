@@ -16,7 +16,7 @@ func main() {
 	}
 	log.Printf("Starting server...")
 	log.Printf("Reading conf/conf.yaml values: %+v", c)
-	s := server.NewServer(&c)
+	s, _ := server.NewServer(&c)
 
 	log.Fatal(s.Run(c.Server.Host, c.Server.Port))
 }
