@@ -125,7 +125,7 @@ func NewSQLStorage() (Storage, error) {
 	db, err := sql.Open("mysql", "root:rock@tcp(127.0.0.1:55000)/trygodb")
 
 	if err != nil {
-		fmt.Errorf("DB Connectivity error: %v", err)
+		return nil, fmt.Errorf("DB Connectivity error: %v", err)
 	}
 
 	query := `
@@ -137,10 +137,11 @@ INSERT INTO users(id, name, surname, age ) VALUES (?, 'Leo', 'Turtle', 18);
 INSERT INTO users(id, name, surname, age ) VALUES (?, 'Splinter', 'Rat', 300);
 	`
 	res, err := db.Query(query, genUUID(), genUUID(), genUUID(), genUUID())
-	res.Close()
 
 	if err != nil {
 		return nil, err
 	}
+	res.Close()
 	return &DBStorage{db: db}, nil
+
 }
